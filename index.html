@@ -84,10 +84,6 @@
     color: var(--iron); font-weight: 700; opacity: 0; transform: translateY(15px);
     transition: opacity 0.3s ease 0.2s, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s; z-index: 2; 
   }
-  .btn.honey-fill-click { color: transparent !important; border-color: var(--mustard) !important; pointer-events: none; }
-  .btn.honey-fill-click::before { height: 100%; }
-  .btn.honey-fill-click::after { opacity: 1; transform: translateY(0); }
-
   /* Preloader */
   #loader {
     position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center;
@@ -457,18 +453,16 @@
     if (btn.type === 'submit') return; // skip form submit buttons
     btn.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
-      if (href) {
+      if (href && this.getAttribute('target') === '_blank') {
+        // Let target="_blank" links behave normally
+        return;
+      }
+      if (href && href.startsWith('#')) {
         e.preventDefault();
-        this.classList.add('honey-fill-click');
-        setTimeout(() => {
-          if (this.getAttribute('target') === '_blank') {
-            window.open(href, '_blank');
-          } else {
-            window.location.href = href;
-          }
-          if (href.startsWith('#')) { setTimeout(() => this.classList.remove('honey-fill-click'), 600); } 
-          else { setTimeout(() => this.classList.remove('honey-fill-click'), 100); }
-        }, 800);
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth' });
+        }
       }
     });
   });
