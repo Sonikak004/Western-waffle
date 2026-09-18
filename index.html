@@ -226,6 +226,14 @@
   .contact-info strong { font-size: clamp(0.95rem, 4vw, 1.25rem); font-weight: 600; color: var(--cream); word-break: break-word; display: block; }
   .hours p { font-size: 0.95rem; color: #D8C6B4; margin-bottom: 0.5rem; }
   .hours strong { color: var(--cream); display: inline-block; width: 80px; }
+  
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; background: rgba(255,246,233,0.05); padding: 2rem; border-radius: 12px; border: 1px solid rgba(255,246,233,0.1); }
+  .contact-form h3 { font-family: 'Rye', serif; font-size: 1.5rem; color: var(--mustard); margin-bottom: 0.5rem; }
+  .contact-form p { font-size: 0.9rem; color: #D8C6B4; margin-bottom: 1rem; line-height: 1.4; }
+  .contact-form input, .contact-form textarea { width: 100%; padding: 1rem; background: rgba(255,246,233,0.1); border: 1px solid rgba(255,246,233,0.2); border-radius: 4px; color: var(--cream); font-family: 'Libre Franklin', sans-serif; transition: all 0.2s; box-sizing: border-box; }
+  .contact-form input:focus, .contact-form textarea:focus { outline: none; border-color: var(--mustard); background: rgba(255,246,233,0.15); }
+  .contact-form textarea { min-height: 100px; resize: vertical; }
+  .contact-form .btn { align-self: flex-start; margin-top: 0.5rem; border: none; cursor: pointer; }
   .location-badge { text-align: center; padding: 3rem; border: 2px dashed rgba(216,154,63,0.3); border-radius: 50%; aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center; align-items: center; max-width: 300px; margin: 0 auto; position: relative; }
   .location-badge::before { content: ''; position: absolute; inset: 10px; border: 1px solid var(--gold); border-radius: 50%; }
   .location-badge .display { font-size: clamp(1.5rem, 4vw, 2rem); line-height: 1.1; margin-bottom: 0.5rem; color: var(--cream); }
@@ -259,9 +267,9 @@
     </a>
     <nav class="nav-links">
       <a href="#menu" class="link">The Menu</a>
-      <a href="#expertise" class="link">Franchise</a>
+      <a href="#contact" class="link">Franchise</a>
       <a href="#contact" class="link">Location</a>
-      <a href="#menu" class="btn">Order Now</a>
+      <a href="https://wa.me/917996234780" class="btn" target="_blank">Order Now</a>
     </nav>
   </div>
 </header>
@@ -279,8 +287,8 @@
       <h1 class="reveal stagger-1"><span class="nowrap">Real Waffles.</span><br><span class="nowrap">Real Business.</span></h1>
       <p class="reveal stagger-2">Serve the city's finest slow-yeasted waffles. Whether you want to grab a quick bite or open your own high-volume storefront, we bring the heat.</p>
       <div class="hero-ctas reveal stagger-3">
-        <a href="#menu" class="btn btn-primary">Order Now</a>
-        <a href="#expertise" class="btn btn-outline">Franchise Info</a>
+        <a href="https://wa.me/917996234780" class="btn btn-primary" target="_blank">Order Now</a>
+        <a href="#contact" class="btn btn-outline">Franchise Info</a>
       </div>
     </div>
   </section>
@@ -376,24 +384,30 @@
         <div class="eyebrow">Saddle up</div>
         <h2>Come get your waffle on</h2>
         <p style="color: #D8C6B4; font-size: 1.1rem; margin-bottom: 2rem;">Place an order online, or just swing by. The iron's always hot.</p>
-        <div class="contact-cards">
-          <a href="#menu" class="contact-card">
-            <div class="contact-icon">🛒</div>
-            <div class="contact-info"><small>Hungry?</small><strong>Order Now</strong></div>
-          </a>
-          <a href="mailto:hello@westernwaffle.com" class="contact-card">
-            <div class="contact-icon">✉</div>
-            <div class="contact-info"><small>Email us</small><strong>hello@westernwaffle.com</strong></div>
-          </a>
+        <div class="contact-content">
+          <div class="contact-cards">
+            <a href="https://wa.me/917996234780" class="contact-card" target="_blank">
+              <div class="contact-icon">🛒</div>
+              <div class="contact-info"><small>Hungry?</small><strong>WhatsApp Order</strong></div>
+            </a>
+            <a href="mailto:hello@westernwaffle.com" class="contact-card">
+              <div class="contact-icon">✉</div>
+              <div class="contact-info"><small>Email us</small><strong>hello@westernwaffle.com</strong></div>
+            </a>
+          </div>
+          <div class="hours">
+            <p><strong>Mon–Fri</strong> 7:00 AM – 10:00 PM</p>
+            <p><strong>Sat–Sun</strong> 8:00 AM – 11:30 PM</p>
+          </div>
         </div>
-        <div class="hours">
-          <p><strong>Mon–Fri</strong> 7:00 AM – 10:00 PM</p>
-          <p><strong>Sat–Sun</strong> 8:00 AM – 11:30 PM</p>
-        </div>
-      </div>
-      <div class="location-badge">
-        <div class="display">BENGALURU<br>INDIA</div>
-        <div class="script">Freshly Forged</div>
+        <form class="contact-form" action="mailto:hello@westernwaffle.com" method="post" enctype="text/plain">
+          <h3>Franchise Inquiry</h3>
+          <p>Interested in opening a Western Waffle franchise or adding us to your food court? Send us a message.</p>
+          <input type="text" name="Name" placeholder="Your Name" required>
+          <input type="tel" name="Phone" placeholder="Phone Number" required>
+          <textarea name="Message" placeholder="Tell us about your location..." required></textarea>
+          <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+        </form>
       </div>
     </div>
   </section>
@@ -438,13 +452,18 @@
 
   // Button Click Effects
   document.querySelectorAll('.btn').forEach(btn => {
+    if (btn.type === 'submit') return; // skip form submit buttons
     btn.addEventListener('click', function(e) {
       const href = this.getAttribute('href');
       if (href) {
         e.preventDefault();
         this.classList.add('honey-fill-click');
         setTimeout(() => {
-          window.location.href = href;
+          if (this.getAttribute('target') === '_blank') {
+            window.open(href, '_blank');
+          } else {
+            window.location.href = href;
+          }
           if (href.startsWith('#')) { setTimeout(() => this.classList.remove('honey-fill-click'), 600); } 
           else { setTimeout(() => this.classList.remove('honey-fill-click'), 100); }
         }, 800);
